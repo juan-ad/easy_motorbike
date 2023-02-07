@@ -7,6 +7,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -23,16 +24,16 @@ class HomePage extends StatelessWidget {
           ),
           child: Column(
             children: [
-              _bannerApp(context),
-              const SizedBox(height: 50),
+              _bannerApp(size),
+              const SizedBox(height: 30 ),
               _textSelectYourRole(),
-              const SizedBox(height: 50),
+              const SizedBox(height: 35 ),
               _imageTypeUser('assets/img/client.png'),
-              const SizedBox(height: 50),
+              const SizedBox(height: 10 ),
               _textTypeUser('Cliente'),
-              const SizedBox(height: 50),
+              const SizedBox(height: 35 ),
               _imageTypeUser('assets/img/motociclista.jpg'),
-              const SizedBox(height: 50),
+              const SizedBox(height: 10 ),
               _textTypeUser('Motociclista')
           ],
           ),
@@ -41,19 +42,19 @@ class HomePage extends StatelessWidget {
     );
   } 
 
-  Widget _bannerApp(BuildContext context){
+  Widget _bannerApp(Size size){
     return ClipPath(
       clipper: DiagonalPathClipperTwo(),
       child: Container(
         color: Colors.white,
-        height: MediaQuery.of(context).size.height * 0.3,
+        height: size.height * 0.2,
         child: Row( 
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Image.asset(
               'assets/img/motorbike.png',
-              width: 150,
-              height: 100,
+              width: 120,
+              height: 80,
             ),  
             const Text(
               'Fácil y Rápido',
