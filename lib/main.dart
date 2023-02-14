@@ -1,5 +1,7 @@
 import 'package:easy_motorbike/pages/home/home_page.dart';
+import 'package:easy_motorbike/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:easy_motorbike/utils/colors.dart' as utils;
 
 void main() {
   runApp(const MyApp());
@@ -19,10 +21,15 @@ class _MyAppState extends State<MyApp> {
       title: 'Easy MotorBike',
       initialRoute: 'home',
       theme: ThemeData(
-        fontFamily: 'NimbusSans'
+        fontFamily: 'NimbusSans',
+        appBarTheme: const AppBarTheme( 
+          elevation: 0
+        ),
+        primaryColor: utils.Colors.easyMotoColor
       ),
       routes: {
-        'home': (BuildContext context) => const HomePage(),
+        'home': (BuildContext context) => HomePage(),
+        'login': (BuildContext context) => const LoginPage(),
       }
     );
   }

@@ -1,12 +1,16 @@
+import 'package:easy_motorbike/pages/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 // StatelessWidget: se utiliza para mostrar información que no va a tener un estado cambiante
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key);
+
+  final HomeController _con = HomeController();
 
   @override
   Widget build(BuildContext context) {
+    _con.init(context); // Inicializando el controlador para Home
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.black,
@@ -28,11 +32,11 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 30 ),
               _textSelectYourRole(),
               const SizedBox(height: 35 ),
-              _imageTypeUser('assets/img/client.png'),
+              _imageTypeUser(context, 'assets/img/client.png'),
               const SizedBox(height: 10 ),
               _textTypeUser('Cliente'),
               const SizedBox(height: 35 ),
-              _imageTypeUser('assets/img/motociclista.jpg'),
+              _imageTypeUser(context, 'assets/img/motociclista.jpg'),
               const SizedBox(height: 10 ),
               _textTypeUser('Motociclista')
           ],
@@ -81,13 +85,19 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _imageTypeUser(String image){
-    return CircleAvatar(
-      backgroundImage: AssetImage(image),
-      radius: 50,
-      backgroundColor: Colors.grey[800],
+  Widget _imageTypeUser(BuildContext context, String image){
+    return GestureDetector(
+      onTap: () {
+        _con.goToLoginPage();
+      },
+      child: CircleAvatar(
+        backgroundImage: AssetImage(image),
+        radius: 50,
+        backgroundColor: Colors.grey[800],
+      ),
     );
   }
+
   Widget _textTypeUser(String typeUser){
     return Text(
       typeUser,
@@ -97,4 +107,5 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
 }
