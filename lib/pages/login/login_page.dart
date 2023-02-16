@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:easy_motorbike/utils/colors.dart' as utils;
+import 'package:easy_motorbike/widgets/button_app.dart';
+import 'package:easy_motorbike/pages/login/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,21 +13,35 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
+  final LoginController _con = LoginController();
+
+  @override
+  void initState(){
+    super.initState();
+
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      _con.init(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Column(
-        children: [
-          _bannerApp(),
-          _textDescription(),
-          _textLogin(),
-          Expanded(child: Container()),
-          _textFieldEmail(),
-          _textFieldPassword(),
-          _buttonLogin(),
-          _textDontHaveAcoount()
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _bannerApp(),
+            _textDescription(),
+            _textLogin(),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.17),
+            _textFieldEmail(),
+            _textFieldPassword(),
+            _buttonLogin(),
+            _textDontHaveAcoount()
+          ],
+        ),
       ),
     );
   }
@@ -92,9 +109,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget _textFieldEmail() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-      child: const TextField(
-        obscureText: true,
-        decoration: InputDecoration(
+      child: TextField(
+        obscureText: false,
+        controller: _con.emailController,
+        decoration: const InputDecoration(
           hintText: 'correo@gmail.com',
           labelText: 'Correo electrónico',
           suffixIcon: Icon(
@@ -109,8 +127,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget _textFieldPassword() {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 30),
-      child: const TextField(
-        decoration: InputDecoration(
+      child: TextField(
+        obscureText: true,
+        controller: _con.passwordController,
+        decoration: const InputDecoration(
           labelText: 'Contraseña',
           suffixIcon: Icon(
             Icons.lock_open_outlined,
@@ -123,20 +143,13 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buttonLogin(){
     return Container(
-      width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 25),
-      child: OutlinedButton(
-        onPressed: () {},
-        style: OutlinedButton.styleFrom(
-          backgroundColor: utils.Colors.easyMotoColor
-        ),
-        child: const Text(
-          'Iniciar Sesión',
-          style: TextStyle(
-            color: Colors.white
-          ),
-        )
-      ),
+      child: ButtonApp(
+        onPressed: _con.login,
+        text: 'Iniciar Sesión',
+        color: utils.Colors.easyMotoColor,
+        textColor: Colors.white,
+      )
     );
   }
 
