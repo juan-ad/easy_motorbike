@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:easy_motorbike/utils/colors.dart' as utils;
-import 'package:easy_motorbike/widgets/button_app.dart';
-import 'package:easy_motorbike/pages/login/login_controller.dart';
+import 'package:easy_motorbike/src/utils/colors.dart' as utils;
+import 'package:easy_motorbike/src/widgets/button_app.dart';
+import 'package:easy_motorbike/src/pages/login/login_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -28,6 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _con.key,
       appBar: AppBar(),
       body: SingleChildScrollView(
         child: Column(
@@ -154,15 +155,18 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _textDontHaveAcoount() {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 50),
-      child: const Text(
-        'No tienes cuenta?',
-        style: TextStyle(
-          fontSize: 15,
-          color: Colors.grey,
-        ),
-      )
+    return GestureDetector(
+      onTap: _con.goToRegisterPage,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 50),
+        child: const Text(
+          'No tienes cuenta?',
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.grey,
+          ),
+        )
+      ),
     );
   }
 }

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "824369544494",
+    "project_id": "easy-moto-flutter",
+    "storage_bucket": "easy-moto-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824369544494:android:5686d579786a82652f0ebf",
+        "android_client_info": {
+          "package_name": "com.mobile.easymotorbike.easy_motorbike"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824369544494-j54h20fsn7aglvc7bti9hdnqla75qgei.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mobile.easymotorbike.easy_motorbike",
+            "certificate_hash": "6e157a9b57037618b4606368c82601b849e78d7b"
+          }
+        },
+        {
+          "client_id": "824369544494-ed8uv3in5o8ot0e1af3g26hc6t1075oq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvjtOBtjHdzUEmzWG1FRnnKp0kzaGhj4M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824369544494-ed8uv3in5o8ot0e1af3g26hc6t1075oq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

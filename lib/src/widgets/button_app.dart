@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:easy_motorbike/utils/colors.dart' as utils;
+import 'package:easy_motorbike/src/utils/colors.dart' as utils;
 
 // ignore: must_be_immutable
 class ButtonApp extends StatelessWidget{

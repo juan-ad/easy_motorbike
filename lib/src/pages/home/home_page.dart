@@ -1,4 +1,4 @@
-import 'package:easy_motorbike/pages/home/home_controller.dart';
+import 'package:easy_motorbike/src/pages/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 

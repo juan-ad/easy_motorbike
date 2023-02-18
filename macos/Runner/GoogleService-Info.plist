@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>824369544494-4mnc5t0mnsrtholu5dtcgaifrmbe5ah1.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.824369544494-4mnc5t0mnsrtholu5dtcgaifrmbe5ah1</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>824369544494-j54h20fsn7aglvc7bti9hdnqla75qgei.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCZqm_4NI1lBUtnSlCRDekg4xQjf-t3XvQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>824369544494</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.mobile.easymotorbike.easyMotorbike</string>
+	<key>PROJECT_ID</key>
+	<string>easy-moto-flutter</string>
+	<key>STORAGE_BUCKET</key>
+	<string>easy-moto-flutter.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:824369544494:ios:46a51f28db231b962f0ebf</string>
+</dict>
+</plist>
