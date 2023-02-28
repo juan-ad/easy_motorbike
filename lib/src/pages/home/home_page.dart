@@ -32,11 +32,11 @@ class HomePage extends StatelessWidget {
               const SizedBox(height: 30 ),
               _textSelectYourRole(),
               const SizedBox(height: 35 ),
-              _imageTypeUser(context, 'assets/img/client.png'),
+              _imageTypeUser(context, 'assets/img/client.png', 'client'),
               const SizedBox(height: 10 ),
               _textTypeUser('Cliente'),
               const SizedBox(height: 35 ),
-              _imageTypeUser(context, 'assets/img/motociclista.jpg'),
+              _imageTypeUser(context, 'assets/img/motociclista.jpg', 'driver'),
               const SizedBox(height: 10 ),
               _textTypeUser('Motociclista')
           ],
@@ -85,10 +85,10 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _imageTypeUser(BuildContext context, String image){
+  Widget _imageTypeUser(BuildContext context, String image, String typeUser){
     return GestureDetector(
       onTap: () {
-        _con.goToLoginPage();
+        _con.goToLoginPage(typeUser);
       },
       child: CircleAvatar(
         backgroundImage: AssetImage(image),

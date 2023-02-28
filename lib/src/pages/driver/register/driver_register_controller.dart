@@ -1,12 +1,12 @@
-import 'package:easy_motorbike/src/models/client.dart';
+import 'package:easy_motorbike/src/models/driver.dart';
 import 'package:easy_motorbike/src/providers/auth_provider.dart';
-import 'package:easy_motorbike/src/providers/client_provider.dart';
+import 'package:easy_motorbike/src/providers/driver_provider.dart';
 import 'package:easy_motorbike/src/utils/my_progress_dialog.dart';
 import 'package:easy_motorbike/src/utils/snackbar.dart' as utils;
 import 'package:flutter/material.dart';
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 
-class RegisterController{
+class DriverRegisterController{
 
   BuildContext? context;
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
@@ -15,15 +15,21 @@ class RegisterController{
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController pin1Controller = TextEditingController();
+  TextEditingController pin2Controller = TextEditingController();
+  TextEditingController pin3Controller = TextEditingController();
+  TextEditingController pin4Controller = TextEditingController();
+  TextEditingController pin5Controller = TextEditingController();
+  TextEditingController pin6Controller = TextEditingController();
 
   AuthProvider? _authProvider;
-  ClientProvider? _clientProvider;
+  DriverProvider? _driverProvider;
   ProgressDialog? _progressDialog;
 
   Future? init(BuildContext context){
     this.context = context;
     _authProvider = AuthProvider();
-    _clientProvider = ClientProvider();
+    _driverProvider = DriverProvider();
     _progressDialog = MyProgressDialog.createProgressDialog(context, 'Espere un momento...');
     return null;
   }
@@ -33,6 +39,15 @@ class RegisterController{
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
     String confirmPassword = confirmPasswordController.text.trim();
+
+    String pin1 = pin1Controller.text.trim();
+    String pin2 = pin2Controller.text.trim();
+    String pin3 = pin3Controller.text.trim();
+    String pin4 = pin4Controller.text.trim();
+    String pin5 = pin5Controller.text.trim();
+    String pin6 = pin6Controller.text.trim();
+
+    String plate = '$pin1$pin2$pin3-$pin4$pin5$pin6';
 
     if (username.isEmpty && email.isEmpty && password.isEmpty && confirmPassword.isEmpty){
       utils.Snackbar.showSnackbar(context, key, 'Todos los campos son obligatorios');
@@ -55,18 +70,19 @@ class RegisterController{
       bool? isRegister = await _authProvider?.register(email, password);
 
       if (isRegister == true){
-        Client client = Client(
+        Driver driver = Driver(
           id: _authProvider!.getUser()!.uid, 
           username: username, 
           email: email, 
-          password: password
+          password: password,
+          plate: plate
         );
-        await _clientProvider?.create(client);
+        await _driverProvider?.create(driver);
         _progressDialog?.hide();
-        utils.Snackbar.showSnackbar(context, key, 'Usuario Registrado Correctamente');
+        utils.Snackbar.showSnackbar(context, key, 'Motociclista Registrado Correctamente');
       }else{
         _progressDialog?.hide();
-        utils.Snackbar.showSnackbar(context, key, 'Usuario No Registrar');
+        utils.Snackbar.showSnackbar(context, key, 'Motociclista No Registrado');
       }
 
     } catch(error){

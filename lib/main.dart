@@ -1,6 +1,7 @@
+import 'package:easy_motorbike/src/pages/driver/register/driver_register_page.dart';
 import 'package:easy_motorbike/src/pages/home/home_page.dart';
 import 'package:easy_motorbike/src/pages/login/login_page.dart';
-import 'package:easy_motorbike/src/pages/register/register_page.dart';
+import 'package:easy_motorbike/src/pages/client/register/client_register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_motorbike/src/utils/colors.dart' as utils;
 import 'package:firebase_core/firebase_core.dart';
@@ -37,7 +38,8 @@ class _MyAppState extends State<MyApp> {
       routes: {
         'home': (BuildContext context) => HomePage(),
         'login': (BuildContext context) => const LoginPage(),
-        'register': (BuildContext context) => const RegisterPage(),
+        'client/register': (BuildContext context) => const ClientRegisterPage(),
+        'driver/register': (BuildContext context) => const DriverRegisterPage(),
       }
     );
   }

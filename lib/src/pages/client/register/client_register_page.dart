@@ -3,18 +3,18 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:easy_motorbike/src/utils/colors.dart' as utils;
 import 'package:easy_motorbike/src/widgets/button_app.dart';
-import 'package:easy_motorbike/src/pages/register/register_controller.dart';
+import 'package:easy_motorbike/src/pages/client/register/client_register_controller.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class ClientRegisterPage extends StatefulWidget {
+  const ClientRegisterPage({super.key});
   
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
+  State<ClientRegisterPage> createState() => _ClientRegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _ClientRegisterPageState extends State<ClientRegisterPage> {
 
-  final RegisterController _con = RegisterController();
+  final ClientRegisterController _con = ClientRegisterController();
 
   @override
   void initState(){

@@ -1,5 +1,5 @@
 import 'package:easy_motorbike/src/providers/auth_provider.dart';
-import 'package:easy_motorbike/src/utils/my_progress_dialog.dart';
+import 'package:easy_motorbike/src/utils/shared_pref.dart';
 import 'package:easy_motorbike/src/utils/snackbar.dart' as utils;
 import 'package:flutter/material.dart';
 
@@ -13,13 +13,22 @@ class LoginController{
 
   AuthProvider? _authProvider;
 
-  Future? init(BuildContext context){
+  SharedPref? _sharedPref;
+  String? _typeUser;
+
+  Future? init(BuildContext context) async{
     this.context = context;
     _authProvider = AuthProvider();
+    _sharedPref = SharedPref();
+    _typeUser = await _sharedPref?.read('typeUser');
     return null;
   }
   void goToRegisterPage(){
-    Navigator.pushNamed(context!, 'register');
+    if (_typeUser == 'client'){
+      Navigator.pushNamed(context!, 'client/register');
+    }else{
+      Navigator.pushNamed(context!, 'driver/register');
+    }
   }
 
   void login() async {
