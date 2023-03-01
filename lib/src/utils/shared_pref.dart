@@ -12,6 +12,8 @@ class SharedPref {
     
     final prefs = await SharedPreferences.getInstance();
 
+    if (prefs.getString(key) == null) return null;
+
     final String? value = prefs.getString(key);
     String valueOk = "";
     if (value?.isEmpty == false){

@@ -14,7 +14,6 @@ class DriverProvider {
 
     try{
       return _ref?.doc(driver.id).set(driver.toJson());
-      print("MOTOCICLISTA REGISTRADO");
     }catch(error){
       errorMessage = error.toString();
     }
@@ -22,5 +21,17 @@ class DriverProvider {
     if (errorMessage.isEmpty){
       return Future.error(errorMessage);
     }
+  }
+
+  Future<Driver?> getById(String id) async {
+    
+    var document = await _ref?.doc(id).get();
+  
+    if (document!.exists){
+      Map<String, dynamic>? data = document.data() as Map<String, dynamic>?;
+      Driver driver = Driver.fromJson(data!);
+      return driver;
+    }
+    return null;
   }
 }

@@ -6,11 +6,11 @@ String driverToJson(Driver data) => json.encode(data.toJson());
 
 class Driver {
     Driver({
-        required this.id,
-        required this.username,
-        required this.email,
-        required this.password,
-        required this.plate,
+        this.id = "",
+        this.username = "",
+        this.email = "",
+        this.password = "",
+        this.plate = "",
     });
 
     String id;
@@ -23,7 +23,6 @@ class Driver {
         id: json["id"],
         username: json["username"],
         email: json["email"],
-        password: json["password"],
         plate: json["plate"],
     );
 

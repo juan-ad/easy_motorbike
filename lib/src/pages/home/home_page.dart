@@ -1,12 +1,29 @@
 import 'package:easy_motorbike/src/pages/home/home_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 // StatelessWidget: se utiliza para mostrar información que no va a tener un estado cambiante
-class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget{
+  const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+
+class _HomePageState extends State<HomePage> {
+  
   final HomeController _con = HomeController();
+
+  @override
+  void initState(){
+    super.initState();
+
+    SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+      _con.init(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

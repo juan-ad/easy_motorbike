@@ -50,7 +50,7 @@ class ClientRegisterController{
     }
 
     _progressDialog?.show();
-
+  
     try{
       bool? isRegister = await _authProvider?.register(email, password);
 
@@ -63,10 +63,12 @@ class ClientRegisterController{
         );
         await _clientProvider?.create(client);
         _progressDialog?.hide();
+        Navigator.pushNamedAndRemoveUntil(context!, 'client/map', (route) => false);
+
         utils.Snackbar.showSnackbar(context, key, 'Usuario Registrado Correctamente');
       }else{
         _progressDialog?.hide();
-        utils.Snackbar.showSnackbar(context, key, 'Usuario No Registrar');
+        utils.Snackbar.showSnackbar(context, key, 'Usuario No Registrado');
       }
 
     } catch(error){

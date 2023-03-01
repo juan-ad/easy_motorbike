@@ -1,3 +1,5 @@
+import 'package:easy_motorbike/src/pages/client/map/client_map_page.dart';
+import 'package:easy_motorbike/src/pages/driver/map/driver_map_page.dart';
 import 'package:easy_motorbike/src/pages/driver/register/driver_register_page.dart';
 import 'package:easy_motorbike/src/pages/home/home_page.dart';
 import 'package:easy_motorbike/src/pages/login/login_page.dart';
@@ -39,7 +41,9 @@ class _MyAppState extends State<MyApp> {
         'home': (BuildContext context) => HomePage(),
         'login': (BuildContext context) => const LoginPage(),
         'client/register': (BuildContext context) => const ClientRegisterPage(),
+        'client/map': (BuildContext context) => const ClientMapPage(),
         'driver/register': (BuildContext context) => const DriverRegisterPage(),
+        'driver/map': (BuildContext context) => const DriverMapPage()
       }
     );
   }

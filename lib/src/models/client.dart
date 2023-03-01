@@ -12,17 +12,16 @@ class Client {
   String password;
 
   Client({
-    required this.id,
-    required this.username,
-    required this.email,
-    required this.password,
+    this.id = "",
+    this.username = "",
+    this.email = "",
+    this.password = "",
   });
 
   factory Client.fromJson(Map<String, dynamic> json) => Client(
     id: json["id"],
     username: json["username"],
-    email: json["email"],
-    password: json["password"],
+    email: json["email"]
   );
 
   Map<String, dynamic> toJson() => {
