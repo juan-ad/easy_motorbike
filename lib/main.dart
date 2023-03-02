@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
         primaryColor: utils.Colors.easyMotoColor
       ),
       routes: {
-        'home': (BuildContext context) => HomePage(),
+        'home': (BuildContext context) => const HomePage(),
         'login': (BuildContext context) => const LoginPage(),
         'client/register': (BuildContext context) => const ClientRegisterPage(),
         'client/map': (BuildContext context) => const ClientMapPage(),
