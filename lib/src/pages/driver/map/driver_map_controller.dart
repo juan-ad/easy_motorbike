@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:easy_motorbike/src/providers/auth_provider.dart';
+import 'package:easy_motorbike/src/providers/geofire_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -26,9 +28,14 @@ class DriverMapController {
 
   BitmapDescriptor? markerDriver;
 
+  GeoFireProvider _geoFireProvider = new GeoFireProvider();
+  AuthProvider? _authProvider;
+
   Future? init(BuildContext context, Function refresh) async{
     this.context = context;
     this.refresh = refresh;
+    _geoFireProvider = new GeoFireProvider();
+    _authProvider = new AuthProvider();
     markerDriver = await createMarketImageFormAsset("assets/img/motocicleta.png");
     checkGPS();
     return null;
@@ -39,11 +46,16 @@ class DriverMapController {
     _mapController.complete(controller);
   }
 
+  void saveLocation() async{
+    await _geoFireProvider.create(_authProvider!.getUser()!.uid, _position!.latitude, _position!.longitude);
+  }
+
   void updateLocation() async{
     try{
       await _determinePosition();
       _position = await Geolocator.getLastKnownPosition();
       centerPosition();
+      saveLocation();
 
       addMarket(
         'driver',
@@ -67,6 +79,7 @@ class DriverMapController {
         );
         animateCameraToPosition(_position!.latitude, _position!.longitude);
        });
+       saveLocation();
        refresh!();
     }catch(err){
       print("Error en la localización");
