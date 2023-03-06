@@ -1,13 +1,17 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_motorbike/src/models/driver.dart';
 import 'package:easy_motorbike/src/providers/auth_provider.dart';
+import 'package:easy_motorbike/src/providers/driver_provider.dart';
 import 'package:easy_motorbike/src/providers/geofire_provider.dart';
+import 'package:easy_motorbike/src/utils/my_progress_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as location;
 import 'package:easy_motorbike/src/utils/snackbar.dart' as utils;
-import 'package:flutter/widgets.dart';
+import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 
 class DriverMapController {
 
@@ -24,21 +28,57 @@ class DriverMapController {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   Position? _position;
+  // Almacenar el listen de la actualización de la ubicación 
   StreamSubscription<Position>? _positionStream;
 
   BitmapDescriptor? markerDriver;
 
   GeoFireProvider _geoFireProvider = new GeoFireProvider();
   AuthProvider? _authProvider;
+  DriverProvider? _driverProvider;
+
+  bool isConnect = false;
+  ProgressDialog? _progressDialog;
+
+  StreamSubscription<DocumentSnapshot>? _statusSuscription;
+  StreamSubscription<DocumentSnapshot>? _driverInfoSuscription;
+
+  Driver? driver;
 
   Future? init(BuildContext context, Function refresh) async{
     this.context = context;
     this.refresh = refresh;
     _geoFireProvider = new GeoFireProvider();
     _authProvider = new AuthProvider();
+    _driverProvider = DriverProvider();
+    _progressDialog = MyProgressDialog.createProgressDialog(context, "Conectándose ...");
     markerDriver = await createMarketImageFormAsset("assets/img/motocicleta.png");
     checkGPS();
+    getDriverInfo();
     return null;
+  }
+
+  void getDriverInfo(){
+    Stream<DocumentSnapshot> driverStream = _driverProvider!.getByIdStream(_authProvider!.getUser()!.uid);
+    _driverInfoSuscription = driverStream.listen((DocumentSnapshot document) {
+      Map<String, dynamic>? data = document.data() as Map<String, dynamic>?;
+      driver = Driver.fromJson(data!);
+      refresh!();
+    });
+  }
+
+  void openDrawer(){
+    key.currentState!.openDrawer();
+  }
+
+  void dispose(){
+    _positionStream?.cancel();
+    _statusSuscription?.cancel();
+    _driverInfoSuscription?.cancel();
+  }
+
+  void signOut() async{
+    await _authProvider!.singOut();
   }
 
   void onMapCreated(GoogleMapController controller){
@@ -48,6 +88,34 @@ class DriverMapController {
 
   void saveLocation() async{
     await _geoFireProvider.create(_authProvider!.getUser()!.uid, _position!.latitude, _position!.longitude);
+    _progressDialog!.hide();
+  }
+
+  void connect(){
+    if (isConnect){
+      disconnect();
+    }else{
+      _progressDialog!.show();
+      updateLocation();
+    }
+  }
+
+  void disconnect(){
+      _positionStream?.cancel();
+      _geoFireProvider.delete(_authProvider!.getUser()!.uid);
+  }
+
+  void checkIfIsConnect(){
+    Stream<DocumentSnapshot> status = _geoFireProvider.getLocationByIdStream(_authProvider!.getUser()!.uid);
+
+    _statusSuscription = status.listen((DocumentSnapshot document) {
+      if (document.exists){
+        isConnect = true;
+      }else{
+        isConnect = false;
+      }
+      refresh!();
+    });
   }
 
   void updateLocation() async{
@@ -98,11 +166,13 @@ class DriverMapController {
     bool isLocationEnabled = await Geolocator.isLocationServiceEnabled();
     if (isLocationEnabled){
       updateLocation();
+      checkIfIsConnect();
     }else{
 
       bool locationGPS = await location.Location().requestService();
       if (locationGPS){
         updateLocation();
+        checkIfIsConnect();
       }
     }
   }

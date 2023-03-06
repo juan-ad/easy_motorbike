@@ -25,13 +25,23 @@ class _DriverMapPageState extends State<DriverMapPage>{
   }
 
   @override
+  void dispose(){
+    super.dispose();
+    _con.dispose();
+  }
+
+  @override
   Widget build(BuildContext context){
     return Scaffold(
+      key: _con.key,
+      drawer: _drawer(),
       body: Stack(
         children: [
           _googleMapsWidget(),
           SafeArea(
             child: Column (
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,10 +77,10 @@ class _DriverMapPageState extends State<DriverMapPage>{
       alignment: Alignment.bottomCenter,
       margin: const EdgeInsets.symmetric(horizontal: 60, vertical: 30),
       child: ButtonApp(
-        text: 'CONECTARSE',
-        color: Colors.amber,
+        text: _con.isConnect ? 'Desconectarse': 'Conectarse',
+        color: _con.isConnect ? Colors.grey: Colors.amber,
         textColor: Colors.black, 
-        onPressed: () {},
+        onPressed: _con.connect,
       ),
     );
   }
@@ -79,14 +89,16 @@ class _DriverMapPageState extends State<DriverMapPage>{
     return Container(
       alignment: Alignment.centerLeft,
       child: IconButton(
-        onPressed: () {},
+        onPressed: _con.openDrawer,
         icon: const Icon(Icons.menu, color: Colors.white,),
       ),
     );
   }
 
   Widget _buttonCenterPosition(){
-    return Container(
+    return GestureDetector(
+      onTap: _con.centerPosition,
+      child: Container(
       alignment: Alignment.centerRight,
       margin: const EdgeInsets.symmetric(horizontal: 5),
       child: Card(
@@ -101,6 +113,63 @@ class _DriverMapPageState extends State<DriverMapPage>{
             size: 20
           ),  
         ),
+      ),
+    ),
+    );
+  }
+
+  Widget _drawer(){
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          DrawerHeader(
+            child: Column(
+              children: [
+                Container(
+                  child: Text(
+                    _con.driver?.username ?? 'Nombre de usuario',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold
+                    ),
+                    maxLines: 1,
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    _con.driver?.email ?? 'email',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey[800],
+                      fontWeight: FontWeight.bold
+                    ),
+                    maxLines: 1,
+                  ),
+                ),
+                SizedBox(height: 10),
+                CircleAvatar(
+                  backgroundImage: AssetImage('assets/img/profile.jpg'),
+                  radius: 40,
+                )
+              ],
+            ),
+            decoration: BoxDecoration(
+              color: Colors.amber
+            ),
+          ),
+          ListTile(
+            title: Text('Editar perfil'),
+            trailing: Icon(Icons.edit),
+            onTap: () {},
+          ),
+          ListTile(
+            title: Text('Cerrar sesión'),
+            trailing: Icon(Icons.power_settings_new),
+            onTap: _con.signOut,
+          )
+        ],
       ),
     );
   }

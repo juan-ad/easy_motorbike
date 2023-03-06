@@ -68,6 +68,6 @@ class AuthProvider {
   }
 
   singOut() async{
-    return Future.wait([_firebaseAuth?.signOut()] as Iterable<Future>);
+    await _firebaseAuth?.signOut();
   }
 }
