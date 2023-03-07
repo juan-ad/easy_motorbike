@@ -79,6 +79,7 @@ class DriverMapController {
 
   void signOut() async{
     await _authProvider!.singOut();
+    Navigator.pushNamedAndRemoveUntil(context!, 'home', (route) => false);
   }
 
   void onMapCreated(GoogleMapController controller){
@@ -101,8 +102,8 @@ class DriverMapController {
   }
 
   void disconnect(){
-      _positionStream?.cancel();
-      _geoFireProvider.delete(_authProvider!.getUser()!.uid);
+    _positionStream?.cancel();
+    _geoFireProvider.delete(_authProvider!.getUser()!.uid);
   }
 
   void checkIfIsConnect(){

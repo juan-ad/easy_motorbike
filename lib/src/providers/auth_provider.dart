@@ -70,4 +70,5 @@ class AuthProvider {
   singOut() async{
     await _firebaseAuth?.signOut();
   }
+
 }

@@ -33,4 +33,8 @@ class ClientProvider {
     }
     return null;
   }
+
+  Stream<DocumentSnapshot> getByIdStream(String id){
+    return _ref!.doc(id).snapshots(includeMetadataChanges: true);
+  }
 }
