@@ -209,7 +209,7 @@ class ClientMapController{
         CameraPosition(
           bearing: 0,
           target: LatLng(latitude, longitude),
-          zoom: 17
+          zoom: 13
         )
       ));
     }

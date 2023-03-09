@@ -40,16 +40,12 @@ class _ClientMapPageState extends State<ClientMapPage>{
           _googleMapsWidget(),
           SafeArea(
             child: Column (
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              // mainAxisAlignment: MainAxisAlignment.start,
+              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _buttonDrawer(),
-                    _buttonCenterPosition()
-                  ],
-                ),
+                _buttonDrawer(),
+                _cardGooglePlaces(),
+                _buttonCenterPosition(),
                 Expanded(child: Container()),
                 _buttonRequest()
               ],
@@ -72,6 +68,62 @@ class _ClientMapPageState extends State<ClientMapPage>{
       myLocationEnabled: false,
       myLocationButtonEnabled: false,
       markers: Set<Marker>.of(_con.markers.values),
+    );
+  }
+
+  Widget _cardGooglePlaces(){
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.9,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20)
+        ),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                  'Desde',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 10
+                ),
+              ),
+              Text(
+                'Cr Falsa con calle falsa',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold
+                ),
+                maxLines: 2,
+              ),
+              SizedBox(height: 5),
+              Container(
+                  child: Divider(color:Colors.grey, height: 12)
+              ),
+              SizedBox(height: 5),
+              Text(
+                'Desde',
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 10
+                ),
+              ),
+              Text(
+                'Cr Falsa con calle falsa',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold
+                ),
+                maxLines: 2,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -104,7 +156,7 @@ class _ClientMapPageState extends State<ClientMapPage>{
       onTap: _con.centerPosition,
       child: Container(
       alignment: Alignment.centerRight,
-      margin: const EdgeInsets.symmetric(horizontal: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 18),
       child: Card(
         shape: const CircleBorder(),
         color: Colors.white,
