@@ -13,6 +13,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as location;
 import 'package:easy_motorbike/src/utils/snackbar.dart' as utils;
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
+import 'package:geocoding/geocoding.dart';
 
 class ClientMapController{
   BuildContext? context;
@@ -45,6 +46,9 @@ class ClientMapController{
   StreamSubscription<DocumentSnapshot>? _clientInfoSuscription;
 
   Client? client;
+
+  String? from;
+  LatLng? fromLatLng;
 
   Future? init(BuildContext context, Function refresh) async{
     this.context = context;
@@ -102,6 +106,31 @@ class ClientMapController{
       getNearbyDrivers();
     }catch(err){
       print("Error en la localización");
+    }
+  }
+
+  Future<Null> setLocationDraggableInfo() async{
+    final _position = this._position;
+    if(initialPosition != null){
+      double lat = initialPosition.target.latitude;
+      double lng = initialPosition.target.longitude;
+
+      List<Placemark> address = await placemarkFromCoordinates(lat,lng);
+
+      if(address != null){
+        if(address.length > 0){
+          String? direction = address[0].thoroughfare;
+          String? street = address[0].subThoroughfare;
+          String? city = address[0].locality;
+          String? department = address[0].administrativeArea;
+          String? country = address[0].country;
+          from = '$direction #$street, $city, $department';
+          fromLatLng = new LatLng(lat,lng);
+          // print('FROM: $from');
+          refresh!();
+        }
+      }
+
     }
   }
 

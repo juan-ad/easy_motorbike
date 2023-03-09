@@ -68,6 +68,12 @@ class _ClientMapPageState extends State<ClientMapPage>{
       myLocationEnabled: false,
       myLocationButtonEnabled: false,
       markers: Set<Marker>.of(_con.markers.values),
+      onCameraIdle: () async{
+        await _con.setLocationDraggableInfo();
+      },
+      onCameraMove: (position){
+        _con.initialPosition = position;
+      },
     );
   }
 
@@ -91,7 +97,7 @@ class _ClientMapPageState extends State<ClientMapPage>{
                 ),
               ),
               Text(
-                'Cr Falsa con calle falsa',
+                _con.from ?? '',
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 14,
