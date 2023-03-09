@@ -45,6 +45,7 @@ class _ClientMapPageState extends State<ClientMapPage>{
               children: [
                 _buttonDrawer(),
                 _cardGooglePlaces(),
+                _buttonChangeTo(),
                 _buttonCenterPosition(),
                 Expanded(child: Container()),
                 _buttonRequest()
@@ -111,14 +112,14 @@ class _ClientMapPageState extends State<ClientMapPage>{
               ),
               SizedBox(height: 5),
               Text(
-                'Desde',
+                'Hasta',
                 style: TextStyle(
                     color: Colors.grey,
                     fontSize: 10
                 ),
               ),
               Text(
-                'Cr Falsa con calle falsa',
+                _con.to ?? '',
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 14,
@@ -177,6 +178,29 @@ class _ClientMapPageState extends State<ClientMapPage>{
         ),
       ),
     ),
+    );
+  }
+
+  Widget _buttonChangeTo(){
+    return GestureDetector(
+      onTap: _con.changeFromTO,
+      child: Container(
+        alignment: Alignment.centerRight,
+        margin: const EdgeInsets.symmetric(horizontal: 18),
+        child: Card(
+          shape: const CircleBorder(),
+          color: Colors.white,
+          elevation: 4.0,
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: Icon(
+                Icons.refresh,
+                color: Colors.grey[600],
+                size: 20
+            ),
+          ),
+        ),
+      ),
     );
   }
 

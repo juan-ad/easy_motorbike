@@ -50,6 +50,11 @@ class ClientMapController{
   String? from;
   LatLng? fromLatLng;
 
+  String? to;
+  LatLng? toLatLng;
+
+  bool isFromSelected = true;
+
   Future? init(BuildContext context, Function refresh) async{
     this.context = context;
     this.refresh = refresh;
@@ -109,6 +114,17 @@ class ClientMapController{
     }
   }
 
+  void changeFromTO(){
+    isFromSelected = !isFromSelected;
+
+    if(isFromSelected){
+      utils.Snackbar.showSnackbar(context, key, 'Estás seleccionando el lugar de recogida');
+    }
+    else{
+      utils.Snackbar.showSnackbar(context, key, 'Estás seleccionando el destino');
+    }
+  }
+
   Future<Null> setLocationDraggableInfo() async{
     final _position = this._position;
     if(initialPosition != null){
@@ -124,13 +140,19 @@ class ClientMapController{
           String? city = address[0].locality;
           String? department = address[0].administrativeArea;
           String? country = address[0].country;
-          from = '$direction #$street, $city, $department';
-          fromLatLng = new LatLng(lat,lng);
-          // print('FROM: $from');
+
+          if(isFromSelected){
+            from = '$direction #$street, $city, $department';
+            fromLatLng = new LatLng(lat,lng);
+          }
+          else{
+            to = '$direction #$street, $city, $department';
+            toLatLng = new LatLng(lat,lng);
+          }
+
           refresh!();
         }
       }
-
     }
   }
 
