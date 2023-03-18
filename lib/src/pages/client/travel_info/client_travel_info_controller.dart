@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:easy_motorbike/src/api/enviroment.dart';
+import 'package:easy_motorbike/src/models/directions.dart';
+import 'package:easy_motorbike/src/providers/google_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -8,6 +10,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class ClientTravelInfoController {
 
   late BuildContext context;
+
+  late GoogleProvider _googleProvider;
 
   Function? refresh;
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
@@ -20,8 +24,8 @@ class ClientTravelInfoController {
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
-  late String from;
-  late String to;
+  late String from = '';
+  late String to = '';
   late LatLng fromLatLng;
   late LatLng toLatLng;
 
@@ -30,6 +34,10 @@ class ClientTravelInfoController {
 
   late BitmapDescriptor fromMarker;
   late BitmapDescriptor toMarker;
+
+  late Direction _directions;
+  late String min = '';
+  late String km = '';
 
   Future? init(BuildContext context, Function refresh) async{
     this.context = context;
@@ -41,11 +49,29 @@ class ClientTravelInfoController {
     fromLatLng = arguments['fromLatLng'];
     toLatLng = arguments['toLatLng'];
 
+    _googleProvider = new GoogleProvider();
+
     fromMarker = await createMarketImageFormAsset("assets/img/map_pin_red.png");
     toMarker = await createMarketImageFormAsset("assets/img/map_pin_blue.png");
 
     animateCameraToPosition(fromLatLng.latitude, fromLatLng.longitude);
+    getGoogleMapsDirections(fromLatLng, toLatLng);
 
+  }
+
+  void getGoogleMapsDirections(LatLng from, LatLng to) async {
+    _directions= await _googleProvider.getGoogleMapsDirections(
+        from.latitude,
+        from.longitude,
+        to.latitude,
+        to.longitude
+    );
+    min = _directions.duration.text;
+    km = _directions.distance.text;
+    print('KM: $km');
+    print('Min: $min');
+
+    refresh!();
   }
 
   Future<void> setPolylines() async {
