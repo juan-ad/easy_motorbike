@@ -90,46 +90,55 @@ class _ClientMapPageState extends State<ClientMapPage>{
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              _infoCardLocation(
                   'Desde',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 10
-                ),
-              ),
-              Text(
-                _con.from ?? '',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold
-                ),
-                maxLines: 2,
+                  _con.from ?? 'Lugar de recogida',
+                  () async{
+                    await _con.showGoogleAutocomplete(true);
+                  }
               ),
               SizedBox(height: 5),
               Container(
                   child: Divider(color:Colors.grey, height: 12)
               ),
               SizedBox(height: 5),
-              Text(
-                'Hasta',
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 10
-                ),
-              ),
-              Text(
-                _con.to ?? '',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold
-                ),
-                maxLines: 2,
+              _infoCardLocation(
+                  'Hasta',
+                  _con.to ?? 'Lugar de destino',
+                      () async{
+                    await _con.showGoogleAutocomplete(false);
+                  }
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _infoCardLocation(String title, String value, VoidCallback function){
+    return GestureDetector(
+      onTap: function,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+                color: Colors.grey,
+                fontSize: 10
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 14,
+                fontWeight: FontWeight.bold
+            ),
+            maxLines: 2,
+          ),
+        ],
       ),
     );
   }

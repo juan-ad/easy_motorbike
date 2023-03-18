@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:easy_motorbike/src/api/enviroment.dart';
 import 'package:easy_motorbike/src/models/client.dart';
 import 'package:easy_motorbike/src/providers/auth_provider.dart';
 import 'package:easy_motorbike/src/providers/client_provider.dart';
@@ -8,15 +9,18 @@ import 'package:easy_motorbike/src/providers/driver_provider.dart';
 import 'package:easy_motorbike/src/providers/geofire_provider.dart';
 import 'package:easy_motorbike/src/utils/my_progress_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as location;
 import 'package:easy_motorbike/src/utils/snackbar.dart' as utils;
 import 'package:progress_dialog_null_safe/progress_dialog_null_safe.dart';
 import 'package:geocoding/geocoding.dart';
+import 'package:google_maps_webservice/places.dart' as places;
+import 'package:flutter_google_places/flutter_google_places.dart';
 
 class ClientMapController{
-  BuildContext? context;
+  late BuildContext context;
   Function? refresh;
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
   final Completer<GoogleMapController> _mapController = Completer();
@@ -54,6 +58,8 @@ class ClientMapController{
   LatLng? toLatLng;
 
   bool isFromSelected = true;
+
+  places.GoogleMapsPlaces _places = places.GoogleMapsPlaces(apiKey: Enviroment.API_KEY_MAPS);
 
   Future? init(BuildContext context, Function refresh) async{
     this.context = context;
@@ -122,6 +128,47 @@ class ClientMapController{
     }
     else{
       utils.Snackbar.showSnackbar(context, key, 'Estás seleccionando el destino');
+    }
+  }
+
+  Future<Null> showGoogleAutocomplete(bool isFrom) async{
+    places.Prediction? p = await PlacesAutocomplete.show(
+      context: context,
+      apiKey: Enviroment.API_KEY_MAPS,
+      language: 'es',
+      strictbounds: true,
+      radius: 15000,
+      location: places.Location(lat: 1.213611,lng: -77.3123281)
+    );
+
+    if(p != null){
+      places.PlacesDetailsResponse detail =
+            await _places.getDetailsByPlaceId(p.placeId.toString(),language: 'es');
+      double lat = detail.result.geometry!.location.lat;
+      double lng = detail.result.geometry!.location.lng;
+      List<Address> address = await Geocoder.local.findAddressesFromQuery(p.description.toString());
+      if(address != null){
+        if(address.length > 0){
+          if(detail != null){
+            String direction = detail.result.name;
+            String city = address[0].locality.toString();
+            String department = address[0].adminArea.toString();
+
+            if(isFrom){
+              from = '$direction, $city, $department';
+              fromLatLng = new LatLng(lat, lng);
+            }
+            else{
+              to = '$direction, $city, $department';
+              toLatLng = new LatLng(lat, lng);
+            }
+
+
+            refresh!();
+          }
+        }
+      }
+
     }
   }
 

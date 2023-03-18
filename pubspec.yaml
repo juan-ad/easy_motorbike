@@ -44,11 +44,19 @@ dependencies:
   shared_preferences: ^2.0.18
   otp_text_field: ^1.1.3
   google_maps_flutter: ^2.2.4
+  # Toca instalarla así porque la versión que teníamos daba error y solamente está solucionado en el git.
+  flutter_google_places:
+    git:
+      url: https://github.com/fluttercommunity/flutter_google_places
+      ref: v0.3.2
   geolocator: ^9.0.2
   location: ^4.4.0
   geoflutterfire: ^3.0.1
-#  geocoder: ^0.2.1
+  geocoder:
+    git:
+      url: https://github.com/nguyenxdat/flutter_geocoder
   geocoding: ^2.0.0
+
 
 dev_dependencies:
   flutter_test:
