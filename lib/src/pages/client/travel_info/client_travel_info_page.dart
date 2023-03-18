@@ -173,7 +173,8 @@ class _ClientTravelInfoPageState extends State<ClientTravelInfoPage> {
       onMapCreated: _con.onMapCreated,
       myLocationEnabled: false,
       myLocationButtonEnabled: false,
-      markers: Set<Marker>.of(_con.markers.values)
+      markers: Set<Marker>.of(_con.markers.values),
+      polylines: _con.polylines,
     );
   }
 
