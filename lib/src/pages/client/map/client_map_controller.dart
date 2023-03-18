@@ -120,6 +120,10 @@ class ClientMapController{
     }
   }
 
+  void requestDriver(){
+    Navigator.pushNamed(context, 'client/travel/info');
+  }
+
   void changeFromTO(){
     isFromSelected = !isFromSelected;
 

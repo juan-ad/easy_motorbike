@@ -149,10 +149,10 @@ class _ClientMapPageState extends State<ClientMapPage>{
       alignment: Alignment.bottomCenter,
       margin: const EdgeInsets.symmetric(horizontal: 60, vertical: 30),
       child: ButtonApp(
-        text: 'Solicitar',
+        onPressed: _con.requestDriver,
+        text: 'SOLICITAR',
         color: Colors.amber,
         textColor: Colors.black, 
-        onPressed: () {},
       ),
     );
   }
