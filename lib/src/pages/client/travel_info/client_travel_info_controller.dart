@@ -3,15 +3,19 @@ import 'dart:async';
 import 'package:easy_motorbike/src/api/enviroment.dart';
 import 'package:easy_motorbike/src/models/directions.dart';
 import 'package:easy_motorbike/src/providers/google_provider.dart';
+import 'package:easy_motorbike/src/providers/prices_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../../../models/prices.dart';
 
 class ClientTravelInfoController {
 
   late BuildContext context;
 
   late GoogleProvider _googleProvider;
+  late PricesProvider _pricesProvider;
 
   Function? refresh;
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
@@ -39,6 +43,9 @@ class ClientTravelInfoController {
   late String min = '';
   late String km = '';
 
+  late double minTotal = 0.0;
+  late double maxTotal = 0.0;
+
   Future? init(BuildContext context, Function refresh) async{
     this.context = context;
     this.refresh = refresh;
@@ -50,6 +57,7 @@ class ClientTravelInfoController {
     toLatLng = arguments['toLatLng'];
 
     _googleProvider = new GoogleProvider();
+    _pricesProvider = new PricesProvider();
 
     fromMarker = await createMarketImageFormAsset("assets/img/map_pin_red.png");
     toMarker = await createMarketImageFormAsset("assets/img/map_pin_blue.png");
@@ -70,8 +78,32 @@ class ClientTravelInfoController {
     km = _directions.distance.text;
     print('KM: $km');
     print('Min: $min');
+    calculatePrice();
+    refresh!();
+  }
+
+  void calculatePrice() async {
+    Prices prices = await _pricesProvider.getAll();
+    double kmValue = double.parse(km.split(" ")[0]) * prices.km;
+    double minValue = double.parse(min.split(" ")[0]) * prices.min;
+    double total = kmValue + minValue;
+
+    // Validación para valor minimo base.
+    double minimumValue = prices.minValue;
+    total = total + minimumValue;
+
+    print('TOTAL: $total');
+    // Se asigna el valor estimado.
+    if(total - 500 < minimumValue ){ // Se valida que el valor mínimo siempre sea el mismo.
+      minTotal = minimumValue;
+    }
+    else{
+      minTotal = total - 500;
+    }
+    maxTotal = total + 500;
 
     refresh!();
+
   }
 
   Future<void> setPolylines() async {

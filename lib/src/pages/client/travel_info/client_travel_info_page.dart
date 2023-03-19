@@ -102,7 +102,7 @@ class _ClientTravelInfoPageState extends State<ClientTravelInfoPage> {
                 )
             ),
             subtitle: Text(
-              '\$ 0.0',
+              '\$${ _con.minTotal.toStringAsFixed(0) ?? '0'} - \$${ _con.maxTotal.toStringAsFixed(0) ?? '0'}',
               style: TextStyle(
                   fontSize: 13
               ),
