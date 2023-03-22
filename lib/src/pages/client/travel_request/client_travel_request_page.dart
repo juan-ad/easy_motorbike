@@ -27,6 +27,13 @@ class _ClientTravelRequestPageState extends State<ClientTravelRequestPage> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _con.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
