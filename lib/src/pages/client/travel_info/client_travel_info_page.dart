@@ -155,12 +155,17 @@ class _ClientTravelInfoPageState extends State<ClientTravelInfoPage> {
 
   Widget _buttonBack() {
     return SafeArea(
-      child: Container(
-        margin: EdgeInsets.only(left: 10),
-        child: CircleAvatar(
-          radius: 20,
-          backgroundColor: Colors.white,
-          child: Icon(Icons.arrow_back, color: Colors.black),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).pop();
+        },
+        child: Container(
+          margin: EdgeInsets.only(left: 10,top: 20),
+          child: CircleAvatar(
+            radius: 20,
+            backgroundColor: Colors.white,
+            child: Icon(Icons.arrow_back, color: Colors.black),
+          ),
         ),
       ),
     );

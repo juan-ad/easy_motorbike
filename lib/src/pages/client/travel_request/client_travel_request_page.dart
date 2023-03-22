@@ -68,7 +68,9 @@ class _ClientTravelRequestPageState extends State<ClientTravelRequestPage> {
         color: Colors.amber,
         icon: Icons.cancel_outlined,
         textColor: Colors.black,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
       ),
     );
   }
